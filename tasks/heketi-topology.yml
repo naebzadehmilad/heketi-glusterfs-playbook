@@ -1,0 +1,13 @@
+- name: Generate topology.json
+  hosts: gfs
+  become: true
+  vars_files:
+  - ../vars/vars.yml
+  tasks:
+    - name: Generate topology.json
+      template:
+        src: ../template/topology.json.j2
+        dest: /etc/heketi/topology.json
+      vars:
+        nodes: "{{ groups['gfs'] }}"
+      when: ansible_hostname == NODE1
