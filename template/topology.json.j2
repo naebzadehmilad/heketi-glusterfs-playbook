@@ -1,0 +1,27 @@
+{
+  "clusters": [
+    {
+      "nodes": [
+        {% for node in nodes %}
+        {
+          "node": {
+            "hostnames": {
+              "manage": [
+                "{{ node }}"
+              ],
+              "storage": [
+                "{{ node }}"
+              ]
+            },
+            "zone": A
+          },
+          "devices": [
+            "{{HEKETI_DISK}}"
+          ]
+        }
+        {% if not loop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+  ]
+}
