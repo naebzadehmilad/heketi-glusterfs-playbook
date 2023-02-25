@@ -1,0 +1,5 @@
+######ADDED BY ANSIBLE######
+{% for server in groups['gfs'] %}
+{{hostvars[server]['ansible_facts']['default_ipv4']['address']}} {{hostvars[server]['ansible_facts']['hostname']}}
+{% endfor %}
+######ADDED BY ANSIBLE######
