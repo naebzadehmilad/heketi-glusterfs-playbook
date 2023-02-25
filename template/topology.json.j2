@@ -2,21 +2,21 @@
   "clusters": [
     {
       "nodes": [
-        {% for node in nodes %}
+       {% for server in groups['gfs'] %}
         {
           "node": {
-            "hostnames": {
+            "addresses": {
               "manage": [
-                "{{ node }}"
+	        "{{ hostvars[server]['ansible_' + gfs_interface]['ipv4']['address'] }} "
               ],
               "storage": [
-                "{{ node }}"
+                "{{ hostvars[server]['ansible_' + gfs_interface]['ipv4']['address'] }} "
               ]
             },
-            "zone": A
+            "zone": dev
           },
           "devices": [
-            "{{HEKETI_DISK}}"
+            "{{ HEKETI_DISK }}"
           ]
         }
         {% if not loop.last %},{% endif %}
