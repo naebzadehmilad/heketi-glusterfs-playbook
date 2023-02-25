@@ -2,3 +2,4 @@ NODE1: dev-gfs1
 HEKETIURL: https://github.com/heketi/heketi/releases/download/v10.4.0/heketi-v10.4.0-release-10.linux.amd64.tar.gz
 PASSWORD: PASS-HEKETI
 HEKETI_DISK: /dev/sdb
+gfs_interface: ens160
