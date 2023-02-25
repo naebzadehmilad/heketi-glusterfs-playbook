@@ -1,0 +1,15 @@
+- hosts: gfs
+  remote_user: root
+  vars_files:
+    - ../vars/vars.yml
+  tasks:
+  - name: check /etc/hosts
+    shell: cat /etc/hosts
+    register: hosts
+  - name: copy hostnames
+    template: src=../template/hosts.j2  dest=/tmp/hosts mode=0644
+    when: hosts.stdout.find('ADDED BY ') == -1
+  - name: configure /etc/hosts
+    shell: cat /tmp/hosts >> /etc/hosts
+    when: hosts.stdout.find('ADDED BY ') == -1
+  - debug: msg="{{hosts.stdout_lines}}"
