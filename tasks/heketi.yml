@@ -1,0 +1,48 @@
+- hosts: gfs
+  remote_user: root
+  vars_files:
+  - ../vars/vars.yml
+  tasks:
+  - name: Download heketi
+    get_url: url={{ HEKETIURL }} dest=/tmp
+    when:  ansible_hostname == NODE1
+  - name: extract heketi
+    unarchive:
+      remote_src: yes
+      src: /tmp/heketi-v10.4.0-release-10.linux.amd64.tar.gz
+      dest: /tmp/
+    when: inventory_hostname == NODE1
+  - name: init-heketi-cli
+    shell: cp /tmp/heketi/heketi-cli /usr/local/bin/ ; mkdir -p /var/lib/heketi /etc/heketi /var/log/heketi
+    when: inventory_hostname == NODE1
+  - name: init-heketi
+    shell: cp /tmp/heketi/heketi  /usr/local/bin/
+    when: inventory_hostname == NODE1
+  - name: copy service heketi
+    template:
+      src: ../template/heketi.service
+      dest: /etc/heketi/heketi.service
+    when: inventory_hostname == NODE1
+  - name: copy heketi.service
+    template:
+      src: ../template/heketi.service
+      dest: /etc/systemd/system/heketi.service
+    when: inventory_hostname == NODE1
+  - name: copy heketi.json
+    template:
+      src: ../template/heketi.json
+      dest: /etc/heketi/heketi.json
+    when: inventory_hostname == NODE1
+  - name: copy heketi-clusterlist.sh
+    template:
+      src: ../template/heketi-clusterlist.sh
+      dest: /opt/heketi-clusterlist.sh
+    when: inventory_hostname == NODE1
+  - name: copy heketi-load.sh
+    template:
+      src: ../template/heketi-load.sh
+      dest: /etc/heketi/heketi-load.sh
+    when: inventory_hostname == NODE1
+  - name: user add heketi
+    shell: groupadd --system heketi ; useradd -s /sbin/nologin --system -g heketi heketi; chown -R heketi:heketi /var/lib/heketi /var/log/heketi /etc/heketi
+    when: inventory_hostname == NODE1
