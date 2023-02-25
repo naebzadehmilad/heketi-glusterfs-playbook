@@ -2,6 +2,8 @@
 
 
 gfs1
+
+
   ssh-keygen -f /etc/heketi/heketi_key -t rsa -N ''  ; systemctl daemon-reload
   systemctl start heketi ;
   systemctl status heketi ;
@@ -9,6 +11,8 @@ gfs1
   
   
   
+  
+  cd /etc/heketi ; sh heketi-load.sh
   
   k8s:
     echo -n "PASSWORD" | base64
