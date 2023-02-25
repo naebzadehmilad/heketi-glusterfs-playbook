@@ -1,0 +1,13 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: gfs1-ssd
+provisioner: kubernetes.io/glusterfs
+parameters:
+  restauthenabled: "true"
+  resturl: "http://172.17.71.60:8080"
+  restuser: "admin"
+  secretName: "heketi-secret"
+  secretNamespace: "kube-system"
+  volumetype: "replicate:2"
+allowVolumeExpansion: true
