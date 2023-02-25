@@ -1,0 +1,10 @@
+- hosts: gfs
+  remote_user: root
+- name: install
+  import_playbook: tasks/install.yml
+- name: add-hosts
+  import_playbook: tasks/addhosts.yml
+- name: heketi-init
+  import_playbook: tasks/heketi.yml
+- name: heketi-topology
+  import_playbook: tasks/heketi-topology.yml
