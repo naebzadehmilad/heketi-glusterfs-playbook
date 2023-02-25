@@ -1,0 +1,21 @@
+- hosts: gfs
+  remote_user: root
+  vars_files:
+    - ../vars/vars.yml
+  tasks:
+  - name: Install glusterfs
+    ansible.builtin.apt:
+      name: glusterfs-server
+      state: present
+  - name: Enable service glusterfs
+    ansible.builtin.service:
+      name: glusterd
+      enabled: yes
+  - name: Start service glusterd, if not started
+    ansible.builtin.service:
+      name: glusterd
+      state: started
+  - name: Probe Glusterfs peers
+    gluster_peer:
+      nodes: "{{ groups['gfs'] }}"
+    when: ansible_hostname == NODE1
